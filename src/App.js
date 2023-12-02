@@ -1,7 +1,7 @@
 import "./index.css";
 import Employee from "./components/Employee";
-import { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [role, setRole] = useState("dev");
@@ -43,6 +43,18 @@ function App() {
       img: "http://localhost:1500/images/8.jpg",
     },
   ]);
+
+  function updateEmployee(id, newName, newRole) {
+    const updateEmployees = employees.map((employee) => {
+      if (employee.id == id) {
+        return { ...employee, name: newName, role: newRole };
+      }
+
+      return employee;
+    });
+    setEmployees(updateEmployees);
+  }
+
   const showEmployees = true;
   return (
     <div className="App">
@@ -51,19 +63,19 @@ function App() {
           <input
             type="text"
             onChange={(e) => {
-              console.log(e.target.value);
               setRole(e.target.value);
             }}
           />
           <div className="flex flex-wrap justify-center">
             {employees.map((employee) => {
-              console.log(uuidv4());
               return (
                 <Employee
-                  key={uuidv4()}
+                  key={employee.id}
+                  id={employee.id}
                   name={employee.name}
                   role={employee.role}
                   img={employee.img}
+                  updateEmployee={updateEmployee}
                 />
               );
             })}
